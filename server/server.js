@@ -5,11 +5,15 @@ import cookieParser from 'cookie-parser'
 import userRouter from './routes/user.router.js'
 import postRouter from './routes/post.router.js'
 import {v2 as cloudinary} from 'cloudinary'
+import cors from 'cors'
+
 
 dotenv.config()
 
+
 connectDB()
 const app=express()
+app.use(cors({}))
 
 
 
