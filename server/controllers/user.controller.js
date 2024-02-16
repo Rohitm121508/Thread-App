@@ -12,7 +12,7 @@ export const signupUser= async(req,res)=>{
         const user = await User.findOne({$or:[{username},{email}]})
 
         if(user){
-            return res.status(400).json({message:"User already exists"})
+            return res.status(400).json({error:"User already exists"})
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -28,7 +28,7 @@ export const signupUser= async(req,res)=>{
         const savedUser = await newUser.save()
 
         if(!savedUser){
-            res.status(400).json({message:"Invalid User data"})
+            res.status(400).json({error:"Invalid User data"})
         }
         generateTokenAndSetCookie(savedUser._id,res)
         res.status(200).json({
@@ -53,7 +53,7 @@ export const loginUser = async(req,res)=>{
         const isPasswordValid = await bcrypt.compare(password,user?.password || "");
 
         if(  !user || !isPasswordValid){
-           return res.status(400).json({message:"Invalid Username or Password"})
+           return res.status(400).json({error:"Invalid Username or Password"})
         }
 
         generateTokenAndSetCookie(user._id,res);
